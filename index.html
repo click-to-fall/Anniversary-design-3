@@ -1,689 +1,1163 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Happy First Anniversary Love</title>
-<style>
-*{margin:0;padding:0;box-sizing:border-box}
-:root{
---red:#660013;
---red-dark:#742236;
---white:#fff9fb;
---soft:#ffe4ec;
---pink1:#ffc2d1;
---pink2:#ff8fab;
---paper:#fff0f5;
---paper-dark:#ffd6e0;
---ink:#4a1c2a;
-}
-body{
-font-family:"Segoe UI",sans-serif;
-background:linear-gradient(180deg,var(--red),var(--red-dark));
-color:var(--white);
-overflow-x:hidden;
-}
-.page{
-min-height:100vh;
-padding:24px 16px 50px;
-position:relative;
-}
-.container{
-max-width:470px;
-margin:0 auto;
-}
-.hero-box,.section-box{
-background:transparent;
-border:none;
-text-align:center;
-}
-.hero-box{
-min-height:76vh;
-display:flex;
-flex-direction:column;
-align-items:center;
-justify-content:center;
-}
-.hero-title{
-font-size:clamp(2rem,4vw,2.7rem);
-font-weight:400;
-margin-bottom:14px;
-}
-.hero-sub{
-font-size:1.05rem;
-color:var(--white);
-margin-bottom:10px;
-}
-.unlock-btn{
-background:none;
-border:none;
-color:var(--white);
-font-size:1rem;
-cursor:pointer;
-}
-.pin-modal{
-position:fixed;
-inset:0;
-background:rgba(0,0,0,.6);
-display:none;
-align-items:center;
-justify-content:center;
-padding:20px;
-z-index:30;
-}
-.pin-modal.show{display:flex}
-.pin-card{
-width:min(340px,100%);
-background:linear-gradient(180deg,#c62d49,#9f1431);
-border-radius:24px;
-padding:28px 18px;
-text-align:center;
-box-shadow:0 18px 40px rgba(0,0,0,.35);
-}
-.pin-card h2{margin-bottom:8px;font-size:1.45rem}
-.pin-card p{color:#ffe9ef;margin-bottom:14px;line-height:1.6}
-.pin-input{
-width:100%;
-padding:14px;
-border:none;
-border-radius:14px;
-text-align:center;
-font-size:1.2rem;
-margin-bottom:10px;
-}
-.pin-actions{display:flex;gap:10px;justify-content:center}
-.pin-actions button{
-padding:10px 18px;
-border:none;
-border-radius:12px;
-cursor:pointer;
-background:#ffe3ea;
-color:#8e173b;
-font-weight:700;
-}
-.pin-msg{min-height:20px;margin-top:10px;color:#fff4f6}
-.hidden-content{display:none}
-.hidden-content.show{display:block;animation:fadeIn .6s ease}
-@keyframes fadeIn{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Happy First Anniversary Love</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-/* floating flowers */
-.flower-float{
-position:fixed;
-font-size:22px;
-opacity:.24;
-animation:flowerUp 12s linear infinite;
-pointer-events:none;
-z-index:0;
-}
-@keyframes flowerUp{
-0%{transform:translateY(105vh) rotate(0deg)}
-100%{transform:translateY(-120vh) rotate(180deg)}
-}
+    :root {
+      --red: #660013;
+      --red-dark: #742236;
+      --white: #fff9fb;
+      --soft: #ffe4ec;
+      --pink1: #ffc2d1;
+      --pink2: #ff8fab;
+      --paper: #fff0f5;
+      --ink: #4a1c2a;
+      --gold: #ffd166;
+      --shadow: 0 14px 28px rgba(0, 0, 0, 0.22);
+    }
 
-/* collage */
-.collage-zone{
-position:relative;
-min-height:340px;
-margin-top:18px;
-display:flex;
-justify-content:center;
-align-items:flex-start;
-}
-.collage-scene{
-position:relative;
-width:390px;
-max-width:100%;
-height:300px;
-margin:0 auto;
-}
-.envelope{
-position:absolute;
-left:18px;
-top:54px;
-width:138px;
-height:96px;
-background:linear-gradient(180deg,var(--pink1),var(--pink2));
-border-radius:8px;
-box-shadow:0 14px 26px rgba(0,0,0,.22);
-}
-.envelope:before{
-content:"";
-position:absolute;
-top:0;left:0;width:100%;height:58px;
-background:#ffd7e1;
-clip-path:polygon(0 0,100% 0,50% 100%);
-border-radius:8px 8px 0 0;
-}
-.note-paper{
-position:absolute;
-left:22px;
-top:8px;
-width:94px;
-background:#fff7fa;
-color:#8d1d3e;
-padding:8px 6px;
-font-size:12px;
-line-height:1.2;
-border-radius:3px;
-text-align:center;
-z-index:2;
-box-shadow:0 8px 16px rgba(0,0,0,.12);
-}
-.rose-deco{
-position:absolute;
-left:2px;
-top:156px;
-font-size:38px;
-}
-.polaroid-large,.polaroid-small{
-position:absolute;
-background:#fff;
-padding:6px 6px 12px;
-border-radius:4px;
-box-shadow:0 14px 24px rgba(0,0,0,.22);
-}
-.polaroid-large img,.polaroid-small img,.board-main img,.book-photo img,.gallery-card img{
-width:100%;
-height:100%;
-object-fit:cover;
-display:block;
-background:#eee;
-}
-.polaroid-large{width:112px;height:128px}
-.polaroid-large.one{left:150px;top:28px;transform:rotate(-8deg)}
-.polaroid-large.two{left:232px;top:24px;transform:rotate(8deg)}
-.camera{
-position:absolute;
-left:280px;
-top:92px;
-width:88px;
-height:58px;
-background:linear-gradient(180deg,#ffb7c9,#ff8bac);
-border-radius:10px;
-box-shadow:0 12px 22px rgba(0,0,0,.2);
-}
-.camera:before{
-content:"";
-position:absolute;
-width:34px;height:34px;border-radius:50%;
-background:#fff3f6;
-border:6px solid #6f3146;
-left:50%;top:50%;transform:translate(-50%,-45%);
-}
-.camera:after{
-content:"";
-position:absolute;
-width:15px;height:8px;border-radius:6px 6px 0 0;
-background:#ffdce6;
-left:10px;top:-6px;
-}
-.polaroid-small{
-width:46px;height:58px;
-left:344px;top:148px;
-transform:rotate(18deg);
-padding:4px 4px 8px;
-}
+    html {
+      scroll-behavior: smooth;
+    }
 
-/* book */
-.book-wrap{
-margin:18px auto 8px;
-width:320px;
-max-width:100%;
-position:relative;
-}
-.book-shell{
-position:relative;
-height:188px;
-background:linear-gradient(180deg,#a5620c,#8b4c00);
-border-radius:18px;
-padding:10px 10px 12px;
-box-shadow:0 18px 30px rgba(0,0,0,.28);
-}
-.book-shell:before{
-content:"";
-position:absolute;
-left:50%;top:12px;bottom:12px;
-width:18px;
-transform:translateX(-50%);
-background:linear-gradient(180deg,#caa96d,#9c6c29);
-border-radius:12px;
-box-shadow:inset 0 0 10px rgba(255,255,255,.2);
-}
-.book-pages{
-height:100%;
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:10px;
-position:relative;
-z-index:1;
-}
-.book-page{
-background:linear-gradient(180deg,var(--paper),#ead4a6);
-border-radius:24px 24px 10px 18px;
-padding:14px 12px;
-box-shadow:inset 0 0 12px rgba(255,255,255,.5);
-position:relative;
-overflow:hidden;
-}
-.book-page.right{
-border-radius:24px 24px 18px 10px;
-}
-.book-page:after{
-content:"";
-position:absolute;
-inset:0;
-background:repeating-linear-gradient(90deg,transparent 0 8px, rgba(120,80,20,.03) 8px 9px);
-pointer-events:none;
-}
-.book-photo{
-width:74px;
-height:116px;
-margin:0 auto;
-background:#fff;
-padding:4px;
-box-shadow:0 8px 16px rgba(0,0,0,.12);
-}
-.book-photo img{border-radius:2px}
-.book-textarea{
-width:100%;
-height:120px;
-background:transparent;
-border:none;
-outline:none;
-resize:none;
-text-align:center;
-font-family:inherit;
-font-size:16px;
-line-height:1.35;
-color:var(--ink);
-padding-top:4px;
-}
-.october-edit{
-margin-top:4px;
-font-weight:700;
-font-size:16px;
-text-align:center;
-color:#5a3316;
-background:transparent;
-border:none;
-outline:none;
-width:100%;
-}
+    body {
+      font-family: "Segoe UI", sans-serif;
+      background: linear-gradient(180deg, var(--red), var(--red-dark));
+      color: var(--white);
+      overflow-x: hidden;
+      position: relative;
+    }
 
-/* scrapbook board */
-.board-wrap{
-margin:10px auto 0;
-width:330px;
-max-width:100%;
-background:#000;
-padding:14px;
-border-radius:2px;
-position:relative;
-min-height:262px;
-box-shadow:0 16px 28px rgba(0,0,0,.3);
-}
-.board-main{
-position:absolute;
-left:72px;
-top:62px;
-width:128px;
-height:124px;
-background:#fff;
-padding:6px 6px 18px;
-transform:rotate(-2deg);
-box-shadow:0 10px 20px rgba(0,0,0,.26);
-}
-.board-main:after{
-content:"OCTOBER";
-position:absolute;
-left:0;right:0;bottom:4px;
-text-align:center;
-font-size:12px;
-font-weight:700;
-color:#333;
-}
-.favorite-label{
-position:absolute;
-left:148px;
-top:22px;
-background:#fff0f5;
-color:#a01d45;
-padding:4px 10px;
-border-radius:16px;
-font-weight:700;
-font-size:14px;
-transform:rotate(8deg);
-}
-.street-sign{
-position:absolute;
-right:22px;
-top:18px;
-background:#2f5fbf;
-color:#fff;
-padding:4px 10px;
-border-radius:4px;
-font-size:12px;
-font-weight:700;
-transform:rotate(-5deg);
-}
-.cd-disc{
-position:absolute;
-right:14px;
-bottom:20px;
-width:112px;
-height:112px;
-border-radius:50%;
-background:conic-gradient(#ffd36f,#ff8aa9,#7ad2ff,#ffd36f);
-border:6px solid #b29040;
-box-shadow:0 10px 18px rgba(0,0,0,.22);
-}
-.cd-disc:before{
-content:"";
-position:absolute;
-width:20px;height:20px;border-radius:50%;
-background:#111;
-left:50%;top:50%;transform:translate(-50%,-50%);
-}
-.ticket,
-.small-cut,
-.heart-sticker,
-.note-left,
-.mini-photo{
-position:absolute;
-background:#fff;
-box-shadow:0 8px 16px rgba(0,0,0,.18);
-}
-.ticket{left:18px;top:16px;width:58px;height:20px;background:#d49a44;transform:rotate(-8deg)}
-.note-left{left:24px;top:34px;width:64px;height:66px;background:#f8ebe2;color:#8a5d4f;font-size:10px;padding:6px;transform:rotate(4deg)}
-.heart-sticker{left:18px;bottom:34px;width:42px;height:50px;background:#f54278;border-radius:22px 22px 26px 26px;transform:rotate(-12deg)}
-.heart-sticker:before,.heart-sticker:after{content:"";position:absolute;width:22px;height:22px;background:#f54278;border-radius:50%;top:-8px}
-.heart-sticker:before{left:2px}.heart-sticker:after{right:2px}
-.small-cut{left:78px;bottom:20px;width:52px;height:38px;background:#ffd7df;border-radius:18px;transform:rotate(-6deg)}
-.mini-photo{right:70px;top:78px;width:38px;height:58px;background:#fff;padding:3px 3px 8px;transform:rotate(-10deg)}
-.mini-photo img{height:100%;width:100%;object-fit:cover}
+    .page {
+      min-height: 100vh;
+      padding: 24px 16px 46px;
+      position: relative;
+      z-index: 2;
+    }
 
-/* extra gallery */
-.extra-grid{
-display:grid;
-grid-template-columns:repeat(2,1fr);
-gap:14px;
-margin-top:18px;
-}
-.gallery-card{
-background:rgba(255,255,255,.08);
-padding:8px 8px 12px;
-border-radius:10px;
-box-shadow:0 10px 18px rgba(0,0,0,.16);
-}
-.gallery-card img{
-aspect-ratio:1/1;
-border-radius:6px;
-margin-bottom:8px
-}
-.gallery-card span{
-display:block;
-font-size:13px;
-color:var(--soft)
-}
+    .container {
+      max-width: 470px;
+      margin: 0 auto;
+    }
 
-.section-title{
-font-size:1.8rem;
-font-weight:400;
-margin-bottom:10px;
-}
-.section-text{
-color:var(--soft);
-line-height:1.8;
-max-width:360px;
-margin:0 auto;
-}
-.final-box{margin-top:20px}
-.secret-btn{
-background:none;
-border:none;
-color:#fff;
-cursor:pointer;
-margin-top:14px
-}
-.secret-note{
-display:none;
-margin-top:14px;
-background:rgba(255,255,255,.12);
-padding:14px;
-border-radius:12px;
-line-height:1.7;
-color:#fff3f6
-}
-.secret-note.show{display:block}
-.top-btn{
-position:fixed;
-right:16px;
-bottom:16px;
-width:50px;height:50px;border:none;border-radius:50%;
-background:#ffdce7;color:#8d173b;font-weight:700;font-size:18px;
-box-shadow:0 10px 20px rgba(0,0,0,.18);
-cursor:pointer;
-display:none;
-z-index:15
-}
-.top-btn.show{display:block}
+    .hero-box,
+    .section-box {
+      text-align: center;
+    }
 
-@media (max-width:520px){
-.hero-box{min-height:72vh}
+    .hero-box {
+      min-height: 78vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
 
-.collage-zone{
-min-height:310px;
-margin-top:12px;
-justify-content:center;
-}
+    .hero-title {
+      font-size: clamp(2.1rem, 4vw, 2.8rem);
+      font-weight: 400;
+      margin-bottom: 14px;
+      line-height: 1.2;
+    }
 
-.collage-scene{
-width:320px;
-height:270px;
-margin:0 auto;
-}
+    .hero-sub {
+      font-size: 1.05rem;
+      color: var(--white);
+      margin-bottom: 14px;
+      opacity: 0.95;
+    }
 
-.envelope{
-left:8px;
-top:56px;
-width:120px;
-height:88px;
-}
-.note-paper{
-left:16px;
-width:82px;
-font-size:11px;
-}
-.rose-deco{
-left:4px;
-top:148px;
-font-size:32px;
-}
-.polaroid-large{
-width:92px;
-height:108px;
-}
-.polaroid-large.one{
-left:118px;
-top:26px;
-}
-.polaroid-large.two{
-left:190px;
-top:22px;
-}
-.camera{
-left:228px;
-top:92px;
-width:74px;
-height:50px;
-}
-.camera:before{
-width:28px;
-height:28px;
-border-width:5px;
-}
-.polaroid-small{
-left:274px;
-top:142px;
-width:40px;
-height:52px;
-}
+    .unlock-btn {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      color: var(--white);
+      font-size: 1rem;
+      cursor: pointer;
+      padding: 13px 24px;
+      border-radius: 999px;
+      backdrop-filter: blur(8px);
+      transition: 0.25s ease;
+    }
 
-.book-wrap{
-width:295px;
-margin-top:12px;
-}
-.book-shell{height:180px}
-.book-photo{width:68px;height:108px}
+    .unlock-btn:hover {
+      transform: translateY(-2px) scale(1.02);
+      background: rgba(255, 255, 255, 0.12);
+    }
 
-.board-wrap{width:300px;min-height:246px}
-.board-main{left:60px;top:60px;width:118px;height:116px}
-.favorite-label{left:134px;top:24px;font-size:12px}
-.street-sign{right:14px;top:18px;font-size:11px}
-.cd-disc{width:100px;height:100px;right:10px}
-.mini-photo{right:58px}
-}
-</style>
+    .pin-modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.62);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      z-index: 30;
+    }
+
+    .pin-modal.show {
+      display: flex;
+    }
+
+    .pin-card {
+      width: min(340px, 100%);
+      background: linear-gradient(180deg, #c62d49, #9f1431);
+      border-radius: 24px;
+      padding: 28px 18px;
+      text-align: center;
+      box-shadow: 0 18px 40px rgba(0, 0, 0, 0.35);
+    }
+
+    .pin-card h2 {
+      margin-bottom: 8px;
+      font-size: 1.45rem;
+      font-weight: 600;
+    }
+
+    .pin-card p {
+      color: #ffe9ef;
+      margin-bottom: 14px;
+      line-height: 1.6;
+    }
+
+    .pin-input {
+      width: 100%;
+      padding: 14px;
+      border: none;
+      border-radius: 14px;
+      text-align: center;
+      font-size: 1.2rem;
+      margin-bottom: 10px;
+      outline: none;
+    }
+
+    .pin-actions {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+    }
+
+    .pin-actions button {
+      padding: 10px 18px;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      background: #ffe3ea;
+      color: #8e173b;
+      font-weight: 700;
+      transition: 0.2s ease;
+    }
+
+    .pin-actions button:hover {
+      transform: translateY(-1px);
+    }
+
+    .pin-msg {
+      min-height: 20px;
+      margin-top: 10px;
+      color: #fff4f6;
+      font-size: 0.95rem;
+    }
+
+    .hidden-content {
+      display: none;
+      padding-bottom: 28px;
+    }
+
+    .hidden-content.show {
+      display: block;
+      animation: fadeIn 0.7s ease;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .flower-float {
+      position: fixed;
+      font-size: 22px;
+      opacity: 0.22;
+      animation: flowerUp 12s linear infinite;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    @keyframes flowerUp {
+      0% {
+        transform: translateY(105vh) rotate(0deg);
+      }
+      100% {
+        transform: translateY(-120vh) rotate(180deg);
+      }
+    }
+
+    .collage-zone {
+      position: relative;
+      min-height: auto;
+      margin-top: 6px;
+      margin-bottom: 4px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .collage-scene {
+      position: relative;
+      width: 300px;
+      max-width: 100%;
+      height: 212px;
+      margin: 0 auto;
+    }
+
+    .envelope {
+      position: absolute;
+      left: 8px;
+      top: 52px;
+      width: 100px;
+      height: 72px;
+      background: linear-gradient(180deg, var(--pink1), var(--pink2));
+      border-radius: 8px;
+      box-shadow: 0 10px 18px rgba(0, 0, 0, 0.22);
+    }
+
+    .envelope:before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 44px;
+      background: #ffd7e1;
+      clip-path: polygon(0 0, 100% 0, 50% 100%);
+      border-radius: 8px 8px 0 0;
+    }
+
+    .note-paper {
+      position: absolute;
+      left: 13px;
+      top: 7px;
+      width: 68px;
+      background: #fff7fa;
+      color: #8d1d3e;
+      padding: 6px 4px;
+      font-size: 9px;
+      line-height: 1.2;
+      border-radius: 3px;
+      text-align: center;
+      z-index: 2;
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.12);
+    }
+
+    .rose-deco {
+      position: absolute;
+      left: 0;
+      top: 127px;
+      font-size: 26px;
+    }
+
+    .polaroid-large,
+    .polaroid-small {
+      position: absolute;
+      background: #fff;
+      padding: 4px 4px 9px;
+      border-radius: 4px;
+      box-shadow: 0 10px 18px rgba(0, 0, 0, 0.22);
+    }
+
+    .polaroid-large img,
+    .polaroid-small img,
+    .board-main img,
+    .book-photo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      background: #eee;
+    }
+
+    .polaroid-large {
+      width: 76px;
+      height: 88px;
+    }
+
+    .polaroid-large.one {
+      left: 96px;
+      top: 23px;
+      transform: rotate(-8deg);
+    }
+
+    .polaroid-large.two {
+      left: 158px;
+      top: 20px;
+      transform: rotate(8deg);
+    }
+
+    .camera {
+      position: absolute;
+      left: 208px;
+      top: 80px;
+      width: 56px;
+      height: 38px;
+      background: linear-gradient(180deg, #ffb7c9, #ff8bac);
+      border-radius: 10px;
+      box-shadow: 0 10px 18px rgba(0, 0, 0, 0.2);
+    }
+
+    .camera:before {
+      content: "";
+      position: absolute;
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: #fff3f6;
+      border: 4px solid #6f3146;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -45%);
+    }
+
+    .camera:after {
+      content: "";
+      position: absolute;
+      width: 10px;
+      height: 5px;
+      border-radius: 6px 6px 0 0;
+      background: #ffdce6;
+      left: 8px;
+      top: -4px;
+    }
+
+    .polaroid-small {
+      width: 30px;
+      height: 40px;
+      left: 250px;
+      top: 122px;
+      transform: rotate(18deg);
+      padding: 3px 3px 6px;
+    }
+
+    .book-wrap {
+      margin: 4px auto 6px;
+      width: 258px;
+      max-width: 100%;
+      position: relative;
+    }
+
+    .book-shell {
+      position: relative;
+      height: 146px;
+      background: linear-gradient(180deg, #a5620c, #8b4c00);
+      border-radius: 18px;
+      padding: 8px 8px 10px;
+      box-shadow: 0 14px 24px rgba(0, 0, 0, 0.28);
+    }
+
+    .book-shell:before {
+      content: "";
+      position: absolute;
+      left: 50%;
+      top: 10px;
+      bottom: 10px;
+      width: 15px;
+      transform: translateX(-50%);
+      background: linear-gradient(180deg, #caa96d, #9c6c29);
+      border-radius: 12px;
+      box-shadow: inset 0 0 10px rgba(255, 255, 255, 0.2);
+    }
+
+    .book-pages {
+      height: 100%;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .book-page {
+      background: linear-gradient(180deg, var(--paper), #ead4a6);
+      border-radius: 24px 24px 10px 18px;
+      padding: 10px;
+      box-shadow: inset 0 0 12px rgba(255, 255, 255, 0.5);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .book-page.right {
+      border-radius: 24px 24px 18px 10px;
+    }
+
+    .book-page:after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: repeating-linear-gradient(
+        90deg,
+        transparent 0 8px,
+        rgba(120, 80, 20, 0.03) 8px 9px
+      );
+      pointer-events: none;
+    }
+
+    .book-photo {
+      width: 56px;
+      height: 88px;
+      margin: 0 auto;
+      background: #fff;
+      padding: 4px;
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.12);
+    }
+
+    .book-photo img {
+      border-radius: 2px;
+    }
+
+    .book-textarea {
+      width: 100%;
+      height: 84px;
+      background: transparent;
+      border: none;
+      outline: none;
+      resize: none;
+      text-align: center;
+      font-family: inherit;
+      font-size: 12px;
+      line-height: 1.35;
+      color: var(--ink);
+      padding-top: 2px;
+    }
+
+    .october-edit {
+      margin-top: 1px;
+      font-weight: 700;
+      font-size: 13px;
+      text-align: center;
+      color: #5a3316;
+      background: transparent;
+      border: none;
+      outline: none;
+      width: 100%;
+    }
+
+    .board-wrap {
+      margin: 8px auto 0;
+      width: 258px;
+      max-width: 100%;
+      background: #000;
+      padding: 12px;
+      border-radius: 2px;
+      position: relative;
+      min-height: 202px;
+      box-shadow: 0 14px 24px rgba(0, 0, 0, 0.3);
+    }
+
+    .board-main {
+      position: absolute;
+      left: 52px;
+      top: 50px;
+      width: 100px;
+      height: 98px;
+      background: #fff;
+      padding: 5px 5px 16px;
+      transform: rotate(-2deg);
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.26);
+    }
+
+    .board-main:after {
+      content: "OCTOBER";
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 4px;
+      text-align: center;
+      font-size: 10px;
+      font-weight: 700;
+      color: #333;
+    }
+
+    .favorite-label {
+      position: absolute;
+      left: 111px;
+      top: 18px;
+      background: #fff0f5;
+      color: #a01d45;
+      padding: 3px 8px;
+      border-radius: 16px;
+      font-weight: 700;
+      font-size: 11px;
+      transform: rotate(8deg);
+    }
+
+    .street-sign {
+      position: absolute;
+      right: 12px;
+      top: 16px;
+      background: #2f5fbf;
+      color: #fff;
+      padding: 3px 8px;
+      border-radius: 4px;
+      font-size: 9px;
+      font-weight: 700;
+      transform: rotate(-5deg);
+    }
+
+    .cd-disc {
+      position: absolute;
+      right: 10px;
+      bottom: 14px;
+      width: 78px;
+      height: 78px;
+      border-radius: 50%;
+      background: conic-gradient(#ffd36f, #ff8aa9, #7ad2ff, #ffd36f);
+      border: 5px solid #b29040;
+      box-shadow: 0 8px 14px rgba(0, 0, 0, 0.22);
+    }
+
+    .cd-disc:before {
+      content: "";
+      position: absolute;
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: #111;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+    }
+
+    .ticket,
+    .small-cut,
+    .heart-sticker,
+    .note-left,
+    .mini-photo {
+      position: absolute;
+      background: #fff;
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.18);
+    }
+
+    .ticket {
+      left: 14px;
+      top: 14px;
+      width: 46px;
+      height: 16px;
+      background: #d49a44;
+      transform: rotate(-8deg);
+    }
+
+    .note-left {
+      left: 18px;
+      top: 30px;
+      width: 54px;
+      height: 54px;
+      background: #f8ebe2;
+      color: #8a5d4f;
+      font-size: 8px;
+      padding: 5px;
+      transform: rotate(4deg);
+    }
+
+    .heart-sticker {
+      left: 14px;
+      bottom: 26px;
+      width: 34px;
+      height: 40px;
+      background: #f54278;
+      border-radius: 20px 20px 22px 22px;
+      transform: rotate(-12deg);
+    }
+
+    .heart-sticker:before,
+    .heart-sticker:after {
+      content: "";
+      position: absolute;
+      width: 18px;
+      height: 18px;
+      background: #f54278;
+      border-radius: 50%;
+      top: -7px;
+    }
+
+    .heart-sticker:before {
+      left: 2px;
+    }
+
+    .heart-sticker:after {
+      right: 2px;
+    }
+
+    .small-cut {
+      left: 64px;
+      bottom: 18px;
+      width: 42px;
+      height: 30px;
+      background: #ffd7df;
+      border-radius: 18px;
+      transform: rotate(-6deg);
+    }
+
+    .mini-photo {
+      right: 50px;
+      top: 68px;
+      width: 28px;
+      height: 44px;
+      background: #fff;
+      padding: 3px 3px 7px;
+      transform: rotate(-10deg);
+    }
+
+    .mini-photo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .extra-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+      margin-top: 14px;
+      align-items: start;
+    }
+
+    .gallery-card {
+      background: rgba(255, 255, 255, 0.08);
+      padding: 8px 8px 10px;
+      border-radius: 12px;
+      box-shadow: 0 10px 18px rgba(0, 0, 0, 0.16);
+      overflow: hidden;
+      min-width: 0;
+    }
+
+    .gallery-card img {
+      display: block;
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      height: auto;
+      object-fit: cover;
+      border-radius: 8px;
+      margin-bottom: 8px;
+    }
+
+    .gallery-card span {
+      display: block;
+      font-size: 12px;
+      color: var(--soft);
+      word-wrap: break-word;
+    }
+
+    .final-box {
+      margin-top: 18px;
+      padding-bottom: 10px;
+    }
+
+    .section-title {
+      font-size: 1.8rem;
+      font-weight: 400;
+      margin-bottom: 10px;
+    }
+
+    .secret-btn {
+      background: linear-gradient(135deg, #ffd7e1, #fff5f8);
+      color: #8c1438;
+      border: none;
+      padding: 13px 24px;
+      border-radius: 999px;
+      cursor: pointer;
+      margin-top: 10px;
+      font-weight: 700;
+      box-shadow: 0 10px 22px rgba(0, 0, 0, 0.2);
+      transition: 0.25s ease;
+    }
+
+    .secret-btn:hover {
+      transform: translateY(-2px) scale(1.02);
+    }
+
+    .surprise-note {
+      display: none;
+      margin-top: 18px;
+      background: rgba(255, 255, 255, 0.1);
+      padding: 18px 16px;
+      border-radius: 18px;
+      line-height: 1.7;
+      color: #fff3f6;
+      backdrop-filter: blur(10px);
+      animation: fadeIn 0.5s ease;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .surprise-note.show {
+      display: block;
+    }
+
+    .surprise-note h3 {
+      font-size: 1.3rem;
+      font-weight: 500;
+      margin-bottom: 10px;
+    }
+
+    .surprise-note p {
+      font-size: 0.98rem;
+      line-height: 1.8;
+    }
+
+    .surprise-divider {
+      width: 80px;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+      margin: 12px auto 14px;
+      opacity: 0.9;
+    }
+
+    .surprise-photo-row {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+      margin-top: 14px;
+      align-items: start;
+    }
+
+    .surprise-photo {
+      background: rgba(255, 255, 255, 0.08);
+      padding: 6px 6px 10px;
+      border-radius: 12px;
+      box-shadow: var(--shadow);
+      overflow: hidden;
+      min-width: 0;
+    }
+
+    .surprise-photo img {
+      display: block;
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      height: auto;
+      object-fit: cover;
+      border-radius: 8px;
+      margin-bottom: 6px;
+    }
+
+    .surprise-photo span {
+      display: block;
+      font-size: 11px;
+      color: var(--soft);
+      word-wrap: break-word;
+    }
+
+    .love-line {
+      margin-top: 14px;
+      font-size: 1rem;
+      color: #fff9fb;
+      opacity: 0.96;
+    }
+
+    .sparkle-text {
+      display: inline-block;
+      animation: glowPulse 2.2s ease-in-out infinite;
+    }
+
+    @keyframes glowPulse {
+      0%, 100% {
+        text-shadow: 0 0 0 rgba(255, 255, 255, 0);
+      }
+      50% {
+        text-shadow: 0 0 18px rgba(255, 255, 255, 0.4);
+      }
+    }
+
+    .burst {
+      position: fixed;
+      pointer-events: none;
+      inset: 0;
+      overflow: hidden;
+      z-index: 60;
+    }
+
+    .confetti,
+    .heart-pop {
+      position: absolute;
+      top: -20px;
+      animation: fall linear forwards;
+      opacity: 0.95;
+    }
+
+    .heart-pop {
+      font-size: 18px;
+    }
+
+    .confetti {
+      width: 10px;
+      height: 16px;
+      border-radius: 4px;
+    }
+
+    @keyframes fall {
+      0% {
+        transform: translateY(-10vh) rotate(0deg);
+      }
+      100% {
+        transform: translateY(110vh) rotate(540deg);
+      }
+    }
+
+    .floating-message {
+      position: fixed;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%) scale(0.8);
+      background: rgba(255, 245, 248, 0.96);
+      color: #8d173b;
+      padding: 16px 22px;
+      border-radius: 20px;
+      font-weight: 700;
+      box-shadow: 0 14px 30px rgba(0, 0, 0, 0.24);
+      z-index: 70;
+      opacity: 0;
+      pointer-events: none;
+      transition: 0.35s ease;
+      text-align: center;
+      min-width: 240px;
+      max-width: calc(100vw - 32px);
+    }
+
+    .floating-message.show {
+      opacity: 1;
+      transform: translate(-50%, -50%) scale(1);
+    }
+
+    .top-btn {
+      position: fixed;
+      right: 16px;
+      bottom: 16px;
+      width: 50px;
+      height: 50px;
+      border: none;
+      border-radius: 50%;
+      background: #ffdce7;
+      color: #8d173b;
+      font-weight: 700;
+      font-size: 18px;
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.18);
+      cursor: pointer;
+      display: none;
+      z-index: 15;
+    }
+
+    .top-btn.show {
+      display: block;
+    }
+
+    @media (max-width: 520px) {
+      .hero-box {
+        min-height: 73vh;
+      }
+
+      .collage-scene {
+        width: 290px;
+        height: 206px;
+      }
+
+      .polaroid-large {
+        width: 74px;
+        height: 86px;
+      }
+
+      .polaroid-large.one {
+        left: 94px;
+      }
+
+      .polaroid-large.two {
+        left: 154px;
+      }
+
+      .camera {
+        left: 202px;
+      }
+
+      .polaroid-small {
+        left: 246px;
+      }
+    }
+  </style>
 </head>
 <body>
-<div class="flower-float" style="left:8%;animation-delay:0s">🌸</div>
-<div class="flower-float" style="left:22%;animation-delay:2s">🌹</div>
-<div class="flower-float" style="left:38%;animation-delay:4s">🌺</div>
-<div class="flower-float" style="left:57%;animation-delay:1s">🌷</div>
-<div class="flower-float" style="left:72%;animation-delay:3s">🌸</div>
-<div class="flower-float" style="left:88%;animation-delay:5s">🌹</div>
+  <div class="flower-float" style="left:8%;animation-delay:0s">🌸</div>
+  <div class="flower-float" style="left:22%;animation-delay:2s">🌹</div>
+  <div class="flower-float" style="left:38%;animation-delay:4s">🌺</div>
+  <div class="flower-float" style="left:57%;animation-delay:1s">🌷</div>
+  <div class="flower-float" style="left:72%;animation-delay:3s">🌸</div>
+  <div class="flower-float" style="left:88%;animation-delay:5s">🌹</div>
 
-<div class="page" id="home">
-  <div class="container">
-    <div class="hero-box">
-      <div class="hero-title">Happy First Anniversary Love</div>
-      <div class="hero-sub">Unlock my heart for you&gt;</div>
-      <button class="unlock-btn" onclick="openPin()">tap to unlock</button>
-    </div>
-  </div>
-</div>
-
-<div class="pin-modal" id="pinModal">
-  <div class="pin-card">
-    <h2>Enter PIN (Pass code is 511)</h2>
-    <p>Use the secret code to open all our little memories.</p>
-    <input class="pin-input" id="pinInput" type="password" maxlength="3" placeholder="***">
-    <div class="pin-actions">
-      <button onclick="checkPin()">Unlock</button>
-      <button onclick="closePin()">Close</button>
-    </div>
-    <div class="pin-msg" id="pinMsg"></div>
-  </div>
-</div>
-
-<div class="hidden-content" id="contentArea">
-  <div class="container">
-    <div class="section-box">
-
-      <div class="collage-zone">
-        <div class="collage-scene">
-          <div class="envelope">
-            <div class="note-paper">To my love<br>Malak</div>
-          </div>
-          <div class="rose-deco">🌹</div>
-
-          <div class="polaroid-large one"><img src="image1.jpg" alt="photo 1"></div>
-          <div class="polaroid-large two"><img src="image2.jpg" alt="photo 2"></div>
-          <div class="camera"></div>
-          <div class="polaroid-small"><img src="image3.jpg" alt="photo 3"></div>
-        </div>
+  <div class="page" id="home">
+    <div class="container">
+      <div class="hero-box">
+        <div class="hero-title">Happy First Anniversary Love</div>
+        <div class="hero-sub">Unlock my heart for you ✨</div>
+        <button class="unlock-btn" onclick="openPin()">tap to unlock</button>
       </div>
+    </div>
+  </div>
 
-      <div class="book-wrap">
-        <div class="book-shell">
-          <div class="book-pages">
-            <div class="book-page left">
-              <div class="book-photo"><img src="image4.jpg" alt="book memory"></div>
-            </div>
-            <div class="book-page right">
-              <textarea class="book-textarea">most lovely moment i love it so much and type anything from you</textarea>
-              <input class="october-edit" value="October">
+  <div class="pin-modal" id="pinModal">
+    <div class="pin-card">
+      <h2>Enter PIN</h2>
+      <p>Use the secret code to open all our little memories.</p>
+      <input class="pin-input" id="pinInput" type="password" maxlength="3" placeholder="***" />
+      <div class="pin-actions">
+        <button onclick="checkPin()">Unlock</button>
+        <button onclick="closePin()">Close</button>
+      </div>
+      <div class="pin-msg" id="pinMsg"></div>
+    </div>
+  </div>
+
+  <div class="hidden-content" id="contentArea">
+    <div class="page" style="min-height:auto;padding-top:8px;">
+      <div class="container">
+        <div class="section-box">
+          <div class="collage-zone">
+            <div class="collage-scene">
+              <div class="envelope">
+                <div class="note-paper">To my love<br />Malak</div>
+              </div>
+
+              <div class="rose-deco">🌹</div>
+
+              <div class="polaroid-large one">
+                <img src="image1.jpg" alt="photo 1" />
+              </div>
+
+              <div class="polaroid-large two">
+                <img src="image2.jpg" alt="photo 2" />
+              </div>
+
+              <div class="camera"></div>
+
+              <div class="polaroid-small">
+                <img src="image3.jpg" alt="photo 3" />
+              </div>
             </div>
           </div>
-        </div>
-      </div>
 
-      <div class="board-wrap">
-        <div class="ticket"></div>
-        <div class="note-left">forever attached to you</div>
-        <div class="favorite-label">Favorite person</div>
-        <div class="street-sign">LOVERS LANE</div>
-        <div class="board-main"><img src="image5.jpg" alt="memory board"></div>
-        <div class="mini-photo"><img src="image10.jpg" alt="mini"></div>
-        <div class="heart-sticker"></div>
-        <div class="small-cut"></div>
-        <div class="cd-disc"></div>
-      </div>
+          <div class="book-wrap">
+            <div class="book-shell">
+              <div class="book-pages">
+                <div class="book-page left">
+                  <div class="book-photo">
+                    <img src="image4.jpg" alt="book memory" />
+                  </div>
+                </div>
+                <div class="book-page right">
+                  <textarea class="book-textarea">most lovely moment i love it so much and type anything from you</textarea>
+                  <input class="october-edit" value="October" />
+                </div>
+              </div>
+            </div>
+          </div>
 
-      <div class="extra-grid">
-        <div class="gallery-card">
-          <img src="image6.jpg" alt="gallery 1">
-          <span>our lovely memory</span>
-        </div>
-        <div class="gallery-card">
-          <img src="image7.jpg" alt="gallery 2">
-          <span>another sweet moment</span>
-        </div>
-        <div class="gallery-card">
-          <img src="image8.jpg" alt="gallery 3">
-          <span>keep adding your photos</span>
-        </div>
-        <div class="gallery-card">
-          <img src="image9.jpg" alt="gallery 4">
-          <span>more scrapbook style</span>
-        </div>
-      </div>
+          <div class="board-wrap">
+            <div class="ticket"></div>
+            <div class="note-left">forever attached to you</div>
+            <div class="favorite-label">Favorite person</div>
+            <div class="street-sign">LOVERS LANE</div>
+            <div class="board-main">
+              <img src="image5.jpg" alt="memory board" />
+            </div>
+            <div class="mini-photo">
+              <img src="image10.jpg" alt="mini" />
+            </div>
+            <div class="heart-sticker"></div>
+            <div class="small-cut"></div>
+            <div class="cd-disc"></div>
+          </div>
 
-      <div class="final-box">
-        <br>
-        <br>
-        <div class="section-title">Still my favorite story</div>
-        <button class="secret-btn" onclick="toggleSecret()">open secret note ✨</button>
-        <div class="secret-note" id="secretNote">If I had to choose all over again, I would still choose you every single time.</div>
+          <div class="extra-grid">
+            <div class="gallery-card">
+              <img src="image6.jpg" alt="gallery 1" />
+              <span>our lovely memory</span>
+            </div>
+
+            <div class="gallery-card">
+              <img src="image7.jpg" alt="gallery 2" />
+              <span>another sweet moment</span>
+            </div>
+
+            <div class="gallery-card">
+              <img src="image8.jpg" alt="gallery 3" />
+              <span>keep adding your photos</span>
+            </div>
+
+            <div class="gallery-card">
+              <img src="image9.jpg" alt="gallery 4" />
+              <span>more scrapbook style</span>
+            </div>
+          </div>
+
+          <div class="final-box">
+            <div class="section-title">Still my favorite story</div>
+            <button class="secret-btn" onclick="toggleSurprise()">open the real surprise ✨</button>
+
+            <div class="surprise-note" id="secretNote">
+              <h3 class="sparkle-text">For You, Always 💌</h3>
+              <div class="surprise-divider"></div>
+
+              <p>
+                If I had to choose all over again, I would still choose you every single time.
+                Through every moment, every memory, every laugh, and every little thing,
+                you are still my favorite part of life.
+              </p>
+
+              <p style="margin-top:10px;">
+                Thank you for being my comfort, my happiness, and the most beautiful chapter
+                I could ever ask for. This is just a small reminder that my heart is still,
+                and will always be, yours.
+              </p>
+
+              <div class="surprise-photo-row">
+                <div class="surprise-photo">
+                  <img src="image2.jpg" alt="special memory" />
+                  <span>one of my favorite views</span>
+                </div>
+                <div class="surprise-photo">
+                  <img src="image5.jpg" alt="special moment" />
+                  <span>one of my favorite memories</span>
+                </div>
+              </div>
+
+              <div class="love-line">
+                <span class="sparkle-text">You are still my once-in-a-lifetime kind of love.</span>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
-</div>
 
-<script>
-function openPin(){
-  document.getElementById('pinModal').classList.add('show');
-}
+  <button class="top-btn" id="topBtn" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
 
-function closePin(){
-  document.getElementById('pinModal').classList.remove('show');
-  document.getElementById('pinMsg').textContent='';
-}
+  <div class="burst" id="burst"></div>
+  <div class="floating-message" id="floatingMessage">You unlocked my heart 💖</div>
 
-function checkPin(){
-  const pin=document.getElementById('pinInput').value;
-  if(pin==='511'){
-    document.getElementById('pinModal').classList.remove('show');
+  <script>
+    function openPin() {
+      document.getElementById("pinModal").classList.add("show");
+      document.getElementById("pinInput").focus();
+    }
 
-    const home=document.getElementById('home');
-    if(home){home.style.display='none';}
+    function closePin() {
+      document.getElementById("pinModal").classList.remove("show");
+      document.getElementById("pinMsg").textContent = "";
+    }
 
-    const content=document.getElementById('contentArea');
-    content.classList.add('show');
+    function checkPin() {
+      const pin = document.getElementById("pinInput").value.trim();
 
-    const topBtn=document.getElementById('topBtn');
-    if(topBtn){topBtn.classList.add('show');}
+      if (pin === "511") {
+        document.getElementById("pinModal").classList.remove("show");
 
-    window.scrollTo({top:0,behavior:'smooth'});
-  }else{
-    document.getElementById('pinMsg').textContent='wrong pin';
-  }
-}
+        const home = document.getElementById("home");
+        if (home) {
+          home.style.display = "none";
+        }
 
-function toggleSecret(){
-  document.getElementById('secretNote').classList.toggle('show');
-}
-</script>
+        const content = document.getElementById("contentArea");
+        content.classList.add("show");
+
+        const topBtn = document.getElementById("topBtn");
+        if (topBtn) {
+          topBtn.classList.add("show");
+        }
+
+        showFloatingMessage("You unlocked my heart 💖");
+        launchCelebration(36);
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      } else {
+        document.getElementById("pinMsg").textContent = "wrong pin";
+      }
+    }
+
+    function toggleSurprise() {
+      const note = document.getElementById("secretNote");
+      const isOpening = !note.classList.contains("show");
+
+      note.classList.toggle("show");
+
+      if (isOpening) {
+        launchCelebration(54);
+        showFloatingMessage("Surprise for my favorite person ✨");
+        setTimeout(() => {
+          note.scrollIntoView({ behavior: "smooth", block: "center" });
+        }, 180);
+      }
+    }
+
+    function launchCelebration(count = 40) {
+      const burst = document.getElementById("burst");
+      burst.innerHTML = "";
+
+      const icons = ["💖", "💕", "✨", "🌸", "💗"];
+      const confettiColors = ["#ffd166", "#ff8fab", "#ffc2d1", "#ffffff", "#ffe4ec"];
+
+      for (let i = 0; i < count; i++) {
+        const item = document.createElement("div");
+        const heartMode = Math.random() > 0.45;
+
+        if (heartMode) {
+          item.className = "heart-pop";
+          item.textContent = icons[Math.floor(Math.random() * icons.length)];
+          item.style.left = Math.random() * 100 + "vw";
+          item.style.animationDuration = 3 + Math.random() * 3 + "s";
+          item.style.fontSize = 16 + Math.random() * 12 + "px";
+        } else {
+          item.className = "confetti";
+          item.style.left = Math.random() * 100 + "vw";
+          item.style.animationDuration = 3 + Math.random() * 3 + "s";
+          item.style.background = confettiColors[Math.floor(Math.random() * confettiColors.length)];
+          item.style.transform = "rotate(" + Math.random() * 180 + "deg)";
+        }
+
+        item.style.animationDelay = Math.random() * 0.6 + "s";
+        burst.appendChild(item);
+      }
+
+      setTimeout(() => {
+        burst.innerHTML = "";
+      }, 6500);
+    }
+
+    function showFloatingMessage(text) {
+      const msg = document.getElementById("floatingMessage");
+      msg.textContent = text;
+      msg.classList.add("show");
+
+      setTimeout(() => {
+        msg.classList.remove("show");
+      }, 2200);
+    }
+
+    document.getElementById("pinInput").addEventListener("keydown", function (e) {
+      if (e.key === "Enter") {
+        checkPin();
+      }
+    });
+  </script>
 </body>
 </html>
-
